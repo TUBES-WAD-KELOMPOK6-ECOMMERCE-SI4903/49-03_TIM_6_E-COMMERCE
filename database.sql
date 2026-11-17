@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS layanan (
     nama_ekspedisi VARCHAR(100) NOT NULL,
     jenis_layanan ENUM('Reguler', 'Express', 'Cargo') NOT NULL,
     zonasi ENUM('Zona 1', 'Zona 2', 'Zona 3', 'Zona 4') NOT NULL,
-    tarif INT UNSIGNED NOT NULL,
+    tarif BIGINT UNSIGNED NOT NULL,
     estimasi VARCHAR(100) NOT NULL,
     status ENUM('ON', 'OFF') NOT NULL DEFAULT 'ON',
     PRIMARY KEY (id)

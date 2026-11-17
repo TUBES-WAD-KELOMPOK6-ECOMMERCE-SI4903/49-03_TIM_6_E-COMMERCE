@@ -54,7 +54,7 @@
 
             <div class="form-group">
                 <label for="tarif">Tarif Dasar (Rp)</label>
-                <input class="form-control" type="number" id="tarif" name="tarif" min="0" step="1" value="{{ old('tarif', $layanan->tarif) }}" required>
+                <input class="form-control" type="number" id="tarif" name="tarif" min="0" max="{{ PHP_INT_MAX }}" step="1" value="{{ old('tarif', $layanan->tarif) }}" required>
             </div>
 
             <div class="form-group">

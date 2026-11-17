@@ -71,7 +71,7 @@ class LayananController extends Controller
             'nama_ekspedisi' => ['required', 'string', 'max:100', 'not_regex:/[<>\/"]/'],
             'jenis_layanan' => ['required', Rule::in(Layanan::JENIS_LAYANAN)],
             'zonasi' => ['required', Rule::in(Layanan::ZONASI)],
-            'tarif' => ['required', 'integer', 'min:0'],
+            'tarif' => ['required', 'integer', 'min:0', 'max:' . PHP_INT_MAX],
             'estimasi' => ['required', Rule::in(Layanan::ESTIMASI)],
             'status' => ['sometimes', 'required', Rule::in(Layanan::STATUS)],
         ]);

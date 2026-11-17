@@ -11,7 +11,16 @@
     <div class="header">
         <h1>@yield('heading', 'MASTER ADMIN - EKSPEDISI')</h1>
         <div class="line"></div>
-        @yield('header-action')
+        <div class="d-flex justify-content-center align-items-center gap-3">
+            @yield('header-action')
+            @auth
+                <span>{{ auth()->user()->name }}</span>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-secondary">Logout</button>
+                </form>
+            @endauth
+        </div>
     </div>
 
     <div class="main-container-page">

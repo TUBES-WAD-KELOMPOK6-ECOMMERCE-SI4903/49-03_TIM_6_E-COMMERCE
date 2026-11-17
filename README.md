@@ -12,22 +12,31 @@ Aplikasi CRUD sederhana menggunakan Laravel 12, PHP 8.2+, dan MySQL. Pengguna da
    ```
 
 3. Salin `.env.example` menjadi `.env` (di PowerShell: `Copy-Item .env.example .env`). Setup awal menggunakan SQLite di `database/database.sqlite` dan tidak memerlukan MySQL. Jika `.env` sudah ada, pastikan `DB_CONNECTION=sqlite` dan `DB_DATABASE=database/database.sqlite`.
-4. Buat application key dan tabel:
+4. Akun demo Master Admin menggunakan username `admin1` dan password `admin1`. Untuk lingkungan selain demo/lokal, segera ubah keduanya melalui `.env`:
+
+   ```dotenv
+   MASTER_ADMIN_NAME="Master Admin"
+   MASTER_ADMIN_USERNAME=admin1
+   MASTER_ADMIN_EMAIL=admin1@example.com
+   MASTER_ADMIN_PASSWORD=admin1
+   ```
+
+5. Buat application key dan tabel:
 
    ```sh
    php artisan key:generate
    php artisan migrate --seed
    ```
 
-5. Jalankan server:
+6. Jalankan server:
 
    ```sh
    php artisan serve
    ```
 
-6. Buka `http://127.0.0.1:8000`.
+7. Buka `http://127.0.0.1:8000/login` dan masuk menggunakan username serta password di atas.
 
-Seeder menambahkan contoh layanan JNE dan SiCepat jika tabel masih kosong.
+Seeder membuat atau memperbarui akun Master Admin dari konfigurasi tersebut dan menambahkan contoh layanan JNE dan SiCepat jika tabel masih kosong. Password `admin1` sangat lemah dan hanya ditujukan untuk demo lokal; ganti sebelum aplikasi dibuka di jaringan atau digunakan di produksi.
 
 ### Menggunakan MySQL
 
@@ -41,15 +50,17 @@ Jika tabel `layanan` sudah dibuat menggunakan `database.sql`, migrasi akan menge
 
 - `app/Models/Layanan.php`: model untuk tabel layanan.
 - `app/Http/Controllers/`: logika CRUD halaman dan API.
+- `app/Http/Middleware/EnsureMasterAdmin.php`: memastikan CRUD hanya dapat diakses Master Admin.
+- `app/Http/Controllers/Auth/AuthenticatedSessionController.php`: login dan logout berbasis session.
 - `database/migrations/`: struktur tabel.
-- `database/seeders/`: contoh data awal.
+- `database/seeders/`: akun Master Admin dan contoh data awal.
 - `resources/views/`: halaman Blade.
 - `routes/web.php`: route halaman web.
 - `routes/api.php`: route REST API.
 
 ## REST API
 
-Base URL API: `http://127.0.0.1:8000/api`
+Base URL API: `http://127.0.0.1:8000/api`. Seluruh endpoint layanan memerlukan session Master Admin. Login dahulu melalui `/login`; permintaan mutasi API juga harus menyertakan perlindungan CSRF dari session web.
 
 | Method | Endpoint | Fungsi |
 | --- | --- | --- |
@@ -72,4 +83,4 @@ Contoh body JSON:
 }
 ```
 
-Nama ekspedisi otomatis disimpan dalam huruf kapital. Field `status` dapat dihilangkan saat membuat layanan API; nilai awalnya `ON`. Import `postman_collection.json` untuk mencoba endpoint.
+Nama ekspedisi otomatis disimpan dalam huruf kapital. Field `status` dapat dihilangkan saat membuat layanan API; nilai awalnya `ON`. Saat menggunakan `postman_collection.json`, autentikasi dulu melalui `/login` dan sertakan cookie session serta CSRF token pada permintaan mutasi.

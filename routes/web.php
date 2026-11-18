@@ -4,7 +4,7 @@ use App\Http\Controllers\LayananController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/layanan');
+Route::redirect('/', '/login');
 
 Route::middleware('guest')->group(function (): void {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');

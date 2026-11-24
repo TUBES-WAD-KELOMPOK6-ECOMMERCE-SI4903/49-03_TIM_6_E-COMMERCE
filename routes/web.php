@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AlamatController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\LayananController;
+use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,9 +24,14 @@ Route::middleware('auth')->group(function (): void {
     });
 });
 
-// Voucher & Promo (Rahma) — route '/' TIDAK diambil, tetap redirect ke /login
+// Voucher & Promo (Rahma)
 Route::get('/e-commers', [VoucherController::class, 'index'])->name('voucher.index');
 Route::get('/input-promo', [VoucherController::class, 'manage'])->name('voucher.manage');
 Route::post('/vouchers', [VoucherController::class, 'store'])->name('voucher.store');
 Route::put('/vouchers/{id}', [VoucherController::class, 'update'])->name('voucher.update');
 Route::delete('/vouchers/{id}', [VoucherController::class, 'destroy'])->name('voucher.destroy');
+
+// Profil Pelanggan & Alamat (Alvin) — route '/' TIDAK diambil, tetap redirect ke /login
+Route::get('/form', [ProfilController::class, 'create'])->name('form');
+Route::resource('profil', ProfilController::class)->except(['create', 'show']);
+Route::resource('alamat', AlamatController::class)->except(['create', 'show']);

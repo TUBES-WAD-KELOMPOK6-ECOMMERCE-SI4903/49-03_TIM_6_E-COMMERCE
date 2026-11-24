@@ -40,6 +40,13 @@ class LayananTest extends TestCase
                 ->assertSee('href="' . url('/layanan') . '"', false)
                 ->assertSee('href="' . url('/alamat') . '"', false);
         }
+
+        $this->get(route('alamat.index'))
+            ->assertOk()
+            ->assertSee('href="' . route('voucher.index') . '"', false)
+            ->assertSee('href="' . url('/layanan') . '"', false)
+            ->assertSee('href="' . route('alamat.index') . '"', false)
+            ->assertSee('aria-current="page"', false);
     }
 
     public function test_create_form_loads(): void

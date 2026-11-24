@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\LayananController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\LayananController;
+use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -20,3 +21,10 @@ Route::middleware('auth')->group(function (): void {
         Route::resource('layanan', LayananController::class)->except('show');
     });
 });
+
+// Voucher & Promo (Rahma) — route '/' TIDAK diambil, tetap redirect ke /login
+Route::get('/e-commers', [VoucherController::class, 'index'])->name('voucher.index');
+Route::get('/input-promo', [VoucherController::class, 'manage'])->name('voucher.manage');
+Route::post('/vouchers', [VoucherController::class, 'store'])->name('voucher.store');
+Route::put('/vouchers/{id}', [VoucherController::class, 'update'])->name('voucher.update');
+Route::delete('/vouchers/{id}', [VoucherController::class, 'destroy'])->name('voucher.destroy');

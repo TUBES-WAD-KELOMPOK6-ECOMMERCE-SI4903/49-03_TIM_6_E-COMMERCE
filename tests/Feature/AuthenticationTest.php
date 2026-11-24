@@ -33,6 +33,18 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
+    public function test_authenticated_admin_redirects_from_login_to_the_dashboard(): void
+    {
+        $admin = User::factory()->create();
+        $admin->role = User::ROLE_MASTER_ADMIN;
+        $admin->save();
+
+        $this->actingAs($admin)
+            ->followingRedirects()
+            ->get('/')
+            ->assertOk();
+    }
+
     public function test_invalid_credentials_do_not_authenticate(): void
     {
         $this->post('/login', [

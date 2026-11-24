@@ -1,0 +1,26 @@
+.admin-navigation {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    margin-bottom: 24px;
+    padding: 8px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.admin-navigation a {
+    padding: 8px 14px;
+    border-radius: 6px;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.admin-navigation a:hover,
+.admin-navigation a.active {
+    background: #e8f0fe;
+    color: #174ea6;
+}

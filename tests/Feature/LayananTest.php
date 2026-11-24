@@ -28,10 +28,18 @@ class LayananTest extends TestCase
 
         $this->get('/layanan')
             ->assertOk()
-            ->assertSee('href="' . url('/voucher') . '"', false)
+            ->assertSee('href="' . route('voucher.index') . '"', false)
             ->assertSee('href="' . url('/alamat') . '"', false)
             ->assertSee('Voucher')
             ->assertSee('Alamat');
+
+        foreach ([route('voucher.index'), route('voucher.manage')] as $voucherPage) {
+            $this->get($voucherPage)
+                ->assertOk()
+                ->assertSee('href="' . route('voucher.index') . '"', false)
+                ->assertSee('href="' . url('/layanan') . '"', false)
+                ->assertSee('href="' . url('/alamat') . '"', false);
+        }
     }
 
     public function test_create_form_loads(): void

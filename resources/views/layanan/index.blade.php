@@ -7,7 +7,6 @@
 @endsection
 
 @section('content')
-<nav>ddd</nav>
     <div class="card-table full-width">
         <div class="card-header-flex">
             <h2>List Zona &amp; Ekspedisi Pengiriman</h2>

@@ -23,6 +23,30 @@
         </div>
     </div>
 
+    @auth
+        <nav class="navbar navbar-expand-sm bg-white rounded shadow-sm mb-4" aria-label="Navigasi master admin">
+            <div class="container-fluid">
+                <div class="navbar-nav">
+                    <a
+                        class="nav-link {{ request()->is('layanan*') ? 'active' : '' }}"
+                        href="{{ url('/layanan') }}"
+                        @if (request()->is('layanan*')) aria-current="page" @endif
+                    >Kurir</a>
+                    <a
+                        class="nav-link {{ request()->is('voucher*') ? 'active' : '' }}"
+                        href="{{ url('/voucher') }}"
+                        @if (request()->is('voucher*')) aria-current="page" @endif
+                    >Voucher</a>
+                    <a
+                        class="nav-link {{ request()->is('alamat*') ? 'active' : '' }}"
+                        href="{{ url('/alamat') }}"
+                        @if (request()->is('alamat*')) aria-current="page" @endif
+                    >Alamat</a>
+                </div>
+            </div>
+        </nav>
+    @endauth
+
     <div class="main-container-page">
         @if (session('success'))
             <div class="notice" role="status">{{ session('success') }}</div>

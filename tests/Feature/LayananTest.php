@@ -22,6 +22,18 @@ class LayananTest extends TestCase
         $this->get('/layanan')->assertOk();
     }
 
+    public function test_admin_navigation_includes_voucher_and_address_pages(): void
+    {
+        $this->actingAsMasterAdmin();
+
+        $this->get('/layanan')
+            ->assertOk()
+            ->assertSee('href="' . url('/voucher') . '"', false)
+            ->assertSee('href="' . url('/alamat') . '"', false)
+            ->assertSee('Voucher')
+            ->assertSee('Alamat');
+    }
+
     public function test_create_form_loads(): void
     {
         $this->actingAsMasterAdmin();

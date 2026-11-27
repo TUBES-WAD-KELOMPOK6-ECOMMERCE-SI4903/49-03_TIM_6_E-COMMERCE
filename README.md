@@ -1,73 +1,193 @@
-# Aplikasi Layanan Ekspedisi
+# E-Commerce Laravel
 
-Aplikasi CRUD sederhana menggunakan Laravel 12, PHP 8.2+, dan MySQL. Pengguna dapat melihat, mencari, menambah, mengedit, dan menghapus layanan ekspedisi. Data yang sama juga tersedia melalui REST API.
+Aplikasi e-commerce berbasis **Laravel 12** untuk mengelola katalog produk, voucher dan promo, profil pelanggan beserta alamat pengiriman, serta layanan ekspedisi. Proyek ini menggunakan **PHP 8.2+**, SQLite secara default, dan mendukung MySQL.
 
-## Menjalankan aplikasi
+## Fitur
 
-1. Pastikan PHP 8.2+ dan Composer tersedia.
-2. Dari folder proyek, pasang dependensi:
+- Autentikasi pengguna berbasis session dengan login dan logout.
+- Peran pengguna `master_admin`, `admin`, dan `user`.
+- Manajemen produk untuk admin: tambah, lihat, ubah, dan hapus produk.
+- Manajemen voucher dan promo: persentase atau nominal, periode berlaku, batas pembelian, dan status.
+- Manajemen profil pelanggan beserta alamat pengiriman.
+- Manajemen layanan ekspedisi untuk Master Admin.
+- REST API untuk layanan ekspedisi.
+- Koleksi Postman untuk membantu pengujian API.
 
-   ```sh
+## Teknologi
+
+- Laravel 12
+- PHP 8.2+
+- SQLite atau MySQL
+- Blade Template
+- Tailwind CSS dan Vite
+- PHPUnit
+
+## Persiapan dan Instalasi
+
+### Persyaratan
+
+- PHP 8.2 atau lebih baru
+- Composer
+- Node.js dan npm
+- Ekstensi PHP yang dibutuhkan Laravel
+- SQLite atau MySQL
+
+### Instalasi Cepat
+
+1. Masuk ke folder proyek:
+
+   ```powershell
+   cd "C:\Users\USER\Documents\SMT 3\PAW\E-COMMERCE"
+   ```
+
+2. Pasang dependensi PHP:
+
+   ```powershell
    composer install
    ```
 
-3. Salin `.env.example` menjadi `.env` (di PowerShell: `Copy-Item .env.example .env`). Setup awal menggunakan SQLite di `database/database.sqlite` dan tidak memerlukan MySQL. Jika `.env` sudah ada, pastikan `DB_CONNECTION=sqlite` dan `DB_DATABASE=database/database.sqlite`.
-4. Akun demo Master Admin menggunakan username `admin1` dan password `admin1`. Untuk lingkungan selain demo/lokal, segera ubah keduanya melalui `.env`:
+3. Buat file konfigurasi lingkungan:
 
-   ```dotenv
-   MASTER_ADMIN_NAME="Master Admin"
-   MASTER_ADMIN_USERNAME=admin1
-   MASTER_ADMIN_EMAIL=admin1@example.com
-   MASTER_ADMIN_PASSWORD=admin1
+   ```powershell
+   Copy-Item .env.example .env
    ```
 
-5. Buat application key dan tabel:
+4. Buat application key:
 
-   ```sh
+   ```powershell
    php artisan key:generate
+   ```
+
+5. Buat atau pastikan file database SQLite tersedia:
+
+   ```powershell
+   New-Item -ItemType File -Force database/database.sqlite
+   ```
+
+6. Jalankan migrasi dan seeder:
+
+   ```powershell
    php artisan migrate --seed
    ```
 
-6. Jalankan server:
+7. Pasang dan build aset frontend:
 
-   ```sh
+   ```powershell
+   npm install
+   npm run build
+   ```
+
+8. Jalankan aplikasi:
+
+   ```powershell
    php artisan serve
    ```
 
-7. Buka `http://127.0.0.1:8000/login` dan masuk menggunakan username serta password di atas.
+9. Buka `http://127.0.0.1:8000`.
 
-Seeder membuat atau memperbarui akun Master Admin dari konfigurasi tersebut dan menambahkan contoh layanan JNE dan SiCepat jika tabel masih kosong. Password `admin1` sangat lemah dan hanya ditujukan untuk demo lokal; ganti sebelum aplikasi dibuka di jaringan atau digunakan di produksi.
+Untuk menjalankan server Laravel dan aset Vite secara bersamaan, gunakan:
 
-### Menggunakan MySQL
+```powershell
+composer run dev
+```
 
-Nyalakan MySQL melalui XAMPP atau layanan lain dan buat database bernama `e-commerce`. Pada `.env`, ubah `DB_CONNECTION=sqlite` menjadi `DB_CONNECTION=mysql`, lalu isi `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, dan `DB_PASSWORD`. Setelah itu jalankan `php artisan migrate --seed`.
+## Konfigurasi Database
 
-### Database lama
+### SQLite
 
-Jika tabel `layanan` sudah dibuat menggunakan `database.sql`, migrasi akan mengenali tabel tersebut dan tidak membuat tabel duplikat. Model Laravel menggunakan kolom yang sama dengan tabel lama.
+Pengaturan default pada `.env.example` menggunakan SQLite:
 
-## Struktur Laravel
+```dotenv
+DB_CONNECTION=sqlite
+DB_DATABASE=database/database.sqlite
+```
 
-- `app/Models/Layanan.php`: model untuk tabel layanan.
-- `app/Http/Controllers/`: logika CRUD halaman dan API.
-- `app/Http/Middleware/EnsureMasterAdmin.php`: memastikan CRUD hanya dapat diakses Master Admin.
-- `app/Http/Controllers/Auth/AuthenticatedSessionController.php`: login dan logout berbasis session.
-- `database/migrations/`: struktur tabel.
-- `database/seeders/`: akun Master Admin dan contoh data awal.
-- `resources/views/`: halaman Blade.
-- `routes/web.php`: route halaman web.
-- `routes/api.php`: route REST API.
+### MySQL
 
-## REST API
+Nyalakan MySQL, buat database misalnya `e-commerce`, lalu ubah konfigurasi pada `.env`:
 
-Base URL API: `http://127.0.0.1:8000/api`. Seluruh endpoint layanan memerlukan session Master Admin. Login dahulu melalui `/login`; permintaan mutasi API juga harus menyertakan perlindungan CSRF dari session web.
+```dotenv
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=e-commerce
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Kemudian jalankan:
+
+```powershell
+php artisan migrate --seed
+```
+
+## Akun Demo
+
+Data seeder membuat beberapa akun demonstrasi:
+
+| Peran | Username | Password |
+| --- | --- | --- |
+| Master Admin | `admin1` | `admin1` |
+| Admin | `admin2` | `admin2` |
+| User | `notadmin` | `notadmin` |
+
+Kredensial di atas hanya untuk pengembangan dan demo lokal. Segera ubah sebelum menjalankan aplikasi di lingkungan produksi.
+
+Konfigurasi Master Admin dapat diatur pada `.env`:
+
+```dotenv
+MASTER_ADMIN_NAME="Master Admin"
+MASTER_ADMIN_USERNAME=admin1
+MASTER_ADMIN_EMAIL=admin1@example.com
+MASTER_ADMIN_PASSWORD=admin1
+```
+
+## Halaman Utama
+
+Setelah login, pengguna diarahkan ke katalog produk.
+
+| Halaman | Path | Keterangan |
+| --- | --- | --- |
+| Login | `/login` | Autentikasi pengguna |
+| Katalog Produk | `/produk` | Daftar produk |
+| Kelola Voucher | `/input-promo` | Tambah, ubah, dan hapus voucher |
+| Daftar Voucher | `/e-commers` | Tampilan voucher dan promo |
+| Profil Pelanggan | `/profil` | Kelola profil pelanggan |
+| Alamat Pengiriman | `/alamat` | Kelola alamat pelanggan |
+| Form Pelanggan | `/form` | Form profil dan pilihan pelanggan |
+| Layanan Ekspedisi | `/layanan` | CRUD layanan, khusus Master Admin |
+
+## Struktur Modul
+
+- `app/Http/Controllers/ProdukController.php` — katalog dan CRUD produk.
+- `app/Http/Controllers/VoucherController.php` — pengelolaan voucher dan promo.
+- `app/Http/Controllers/ProfilController.php` — data profil pelanggan.
+- `app/Http/Controllers/AlamatController.php` — alamat pengiriman pelanggan.
+- `app/Http/Controllers/LayananController.php` — CRUD layanan ekspedisi.
+- `app/Http/Controllers/Auth/AuthenticatedSessionController.php` — login dan logout.
+- `app/Http/Middleware/EnsureMasterAdmin.php` — pembatasan akses Master Admin.
+- `database/migrations/` — struktur tabel database.
+- `database/seeders/` — akun demo, layanan, dan voucher awal.
+- `resources/views/` — antarmuka berbasis Blade.
+- `routes/web.php` — route halaman web.
+- `routes/api.php` — route REST API.
+
+## REST API Layanan Ekspedisi
+
+Base URL:
+
+```text
+http://127.0.0.1:8000/api
+```
+
+Seluruh endpoint layanan memerlukan pengguna yang sudah login sebagai Master Admin. Permintaan mutasi juga wajib menyertakan cookie session dan CSRF token dari sesi web.
 
 | Method | Endpoint | Fungsi |
 | --- | --- | --- |
 | GET | `/layanan` | Daftar layanan |
 | GET | `/layanan/{id}` | Detail layanan |
 | POST | `/layanan` | Tambah layanan |
-| PUT/PATCH | `/layanan/{id}` | Edit layanan |
+| PUT/PATCH | `/layanan/{id}` | Ubah layanan |
 | DELETE | `/layanan/{id}` | Hapus layanan |
 
 Contoh body JSON:
@@ -83,4 +203,23 @@ Contoh body JSON:
 }
 ```
 
-Nama ekspedisi otomatis disimpan dalam huruf kapital. Field `status` dapat dihilangkan saat membuat layanan API; nilai awalnya `ON`. Saat menggunakan `postman_collection.json`, autentikasi dulu melalui `/login` dan sertakan cookie session serta CSRF token pada permintaan mutasi.
+Nama ekspedisi otomatis disimpan dalam huruf kapital. Nilai `status` bersifat opsional saat membuat layanan dan default-nya adalah `ON`.
+
+## Pengujian
+
+Menjalankan seluruh pengujian:
+
+```powershell
+php artisan test
+```
+
+Menjalankan pengujian tertentu:
+
+```powershell
+php artisan test tests/Feature/LayananTest.php
+php artisan test tests/Feature/AuthenticationTest.php
+```
+
+## Postman
+
+Import `postman_collection.json` ke Postman untuk menguji REST API. Login melalui aplikasi atau endpoint `/login` terlebih dahulu, kemudian gunakan cookie session dan CSRF token untuk permintaan mutasi.

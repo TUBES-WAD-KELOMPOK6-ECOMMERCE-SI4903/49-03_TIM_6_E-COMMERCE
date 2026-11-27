@@ -25,17 +25,20 @@
             <h2>Direktori Alamat Pengiriman</h2>
             <p class="section-description">Kelola alamat yang tersimpan untuk pelanggan.</p>
         </div>
-        <form method="GET" action="{{ route('alamat.index') }}" class="filter-form">
-            <label for="pelanggan">Tampilkan alamat milik</label>
-            <select id="pelanggan" name="pelanggan" class="form-control filter-select" onchange="this.form.submit()">
-                <option value="0">Semua profil</option>
-                @foreach ($profilList as $p)
-                    <option value="{{ $p->id }}" @selected($filter === $p->id)>
-                        {{ $p->nama_lengkap }}
-                    </option>
-                @endforeach
-            </select>
-        </form>
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+            <a href="{{ route('form') }}" class="btn-action">+ Tambah Alamat</a>
+            <form method="GET" action="{{ route('alamat.index') }}" class="filter-form">
+                <label for="pelanggan">Tampilkan alamat milik</label>
+                <select id="pelanggan" name="pelanggan" class="form-control filter-select" onchange="this.form.submit()">
+                    <option value="0">Semua profil</option>
+                    @foreach ($profilList as $p)
+                        <option value="{{ $p->id }}" @selected($filter === $p->id)>
+                            {{ $p->nama_lengkap }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
+        </div>
     </div>
 
     <div class="table-scroll">

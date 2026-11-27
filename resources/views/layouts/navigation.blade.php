@@ -15,5 +15,10 @@
             href="{{ url('/alamat') }}"
             @if (request()->is('alamat*')) aria-current="page" @endif
         >Alamat</a>
+        <a
+            class="{{ request()->is('produk*') ? 'active' : '' }}"
+            href="{{ route('produk.index') }}"
+            @if (request()->is('produk*')) aria-current="page" @endif
+        >Katalog Produk</a>
     </nav>
 @endauth

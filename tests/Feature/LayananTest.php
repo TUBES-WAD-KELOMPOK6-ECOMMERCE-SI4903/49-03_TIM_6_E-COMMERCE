@@ -30,6 +30,7 @@ class LayananTest extends TestCase
             ->assertOk()
             ->assertSee('href="' . route('voucher.index') . '"', false)
             ->assertSee('href="' . url('/alamat') . '"', false)
+            ->assertSee('href="' . route('produk.index') . '"', false)
             ->assertSee('Voucher')
             ->assertSee('Alamat');
 
@@ -38,7 +39,8 @@ class LayananTest extends TestCase
                 ->assertOk()
                 ->assertSee('href="' . route('voucher.index') . '"', false)
                 ->assertSee('href="' . url('/layanan') . '"', false)
-                ->assertSee('href="' . url('/alamat') . '"', false);
+                ->assertSee('href="' . url('/alamat') . '"', false)
+                ->assertSee('href="' . route('produk.index') . '"', false);
         }
 
         $this->get(route('alamat.index'))
@@ -46,6 +48,14 @@ class LayananTest extends TestCase
             ->assertSee('href="' . route('voucher.index') . '"', false)
             ->assertSee('href="' . url('/layanan') . '"', false)
             ->assertSee('href="' . route('alamat.index') . '"', false)
+            ->assertSee('href="' . route('produk.index') . '"', false)
+            ->assertSee('href="' . route('form') . '"', false)
+            ->assertSee('+ Tambah Alamat')
+            ->assertSee('aria-current="page"', false);
+
+        $this->get(route('produk.index'))
+            ->assertOk()
+            ->assertSee('href="' . route('produk.index') . '"', false)
             ->assertSee('aria-current="page"', false);
     }
 
